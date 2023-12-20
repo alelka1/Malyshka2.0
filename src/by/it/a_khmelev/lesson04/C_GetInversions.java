@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson04;
+package by.it.group251051.Kallaur.lesson04;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -46,21 +46,32 @@ public class C_GetInversions {
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
         }
-        int result = 0;
         //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
-
-
-
-
-
-
+        int result =  getInversion(a, a.clone(),0, a.length - 1);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        System.out.println(result);
         return result;
     }
+    public int getInversion (int[] a, int[] clone, int start, int end) {
+        if (start < end) {
+            int mid = (start + end) / 2;
+            int j = mid + 1;
+            int count = getInversion(a, clone, start, mid) + getInversion(a, clone, j, end);
+            int i = start;
+            int temp = i;
+            while (i <= mid && j <= end) {
+                if (a[i] <= a[j])
+                    clone[temp++] = a[i++];
+                else {
+                    clone[temp++] = a[j++];
+                    count += mid - i + 1;
+                }
+            }
 
+            return count;
+        }
+        return 0;
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
