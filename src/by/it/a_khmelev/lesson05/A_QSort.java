@@ -1,8 +1,9 @@
-package by.it.a_khmelev.lesson05;
+package by.it.group251051.Kallaur.lesson05;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -38,22 +39,20 @@ import java.util.Scanner;
 public class A_QSort {
 
     //отрезок
-    private class Segment  implements Comparable<Segment>{
+    private static class Segment  implements Comparable<Segment>{
         int start;
         int stop;
 
         Segment(int start, int stop){
-            this.start = start;
-            this.stop = stop;
-            //тут вообще-то лучше доделать конструктор на случай если
-            //концы отрезков придут в обратном порядке
+            this.start = Math.min(start, stop);
+            this.stop = Math.max(start, stop);
         }
 
         @Override
         public int compareTo(Segment o) {
             //подумайте, что должен возвращать компаратор отрезков
 
-            return 0;
+            return this.start - o.start;
         }
     }
 
@@ -73,7 +72,7 @@ public class A_QSort {
         //читаем сами отрезки
         for (int i = 0; i < n; i++) {
             //читаем начало и конец каждого отрезка
-            segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
+            segments[i]= new Segment(scanner.nextInt(), scanner.nextInt());
         }
         //читаем точки
         for (int i = 0; i < m; i++) {
@@ -81,14 +80,37 @@ public class A_QSort {
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
-
-
-
-
+        QSort(segments,0,segments.length-1);
+        for (Segment i : segments)
+            for (int j = 0; j < points.length; j++)
+                    result[j] += (i.start <= points[j] && i.stop >= points[j]) ? 1 : 0;
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
+    public void QSort(Segment[] arr, int start, int end) {
+        if (start < end) {
+            int ind = part(arr, start, end) - 1;
 
+            QSort(arr, start, ind);
+            QSort(arr, ind+2, end);
+        }
+    }
+
+    private int part(Segment[] arr, int start, int end) {
+        int i = (start-1);
+        for (int j = start; j < end; j++) {
+            if(arr[j].compareTo(arr[start]) <= 0) {
+                Segment swapTemp = arr[++i];
+                arr[i] = arr[j];
+                arr[j] = swapTemp;
+            }
+        }
+        Segment temp = arr[i+1];
+        arr[i+1] = arr[end];
+        arr[end] = temp;
+
+        return i+1;
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
@@ -99,5 +121,4 @@ public class A_QSort {
             System.out.print(index+" ");
         }
     }
-
 }
