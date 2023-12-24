@@ -1,4 +1,4 @@
-package by.it.group251051.Kallaur.lesson01;
+package by.it.a_khmelev.lesson01;
 
 import java.math.BigInteger;
 
@@ -50,4 +50,3 @@ public class FiboA {
 
 
 }
-

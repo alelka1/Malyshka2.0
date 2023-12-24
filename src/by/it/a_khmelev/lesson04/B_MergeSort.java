@@ -1,9 +1,8 @@
-package by.it.group251051.Kallaur.lesson04;
+package by.it.a_khmelev.lesson04;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -33,39 +32,20 @@ public class B_MergeSort {
         int[] a=new int[n];
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
-            System.out.print(a[i] + " ");
-        } System.out.println();
+            System.out.println(a[i]);
+        }
+
         // тут ваше решение (реализуйте сортировку слиянием)
         // https://ru.wikipedia.org/wiki/Сортировка_слиянием
-        return MergeSort(a);
+
+
+
+
+
+
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        return a;
     }
-
-    int[] merge(int[] left, int[] right) {
-        int[] res = new int[left.length + right.length];
-        int l = 0, r = 0;
-        for (int i = 0; i < res.length; i++) {
-            if (r >= right.length)
-                res[i] = left[l++];
-            else if (l >= left.length)
-                res[i] = right[r++];
-            else
-                res[i] = left[l] < right[r] ? left[l++] : right[r++];
-        }
-        return res;
-    }
-
-    int[] MergeSort(int[] arr) {
-        if (arr.length <= 1)
-            return arr;
-
-        int half = arr.length / 2;
-        int[] left = MergeSort(Arrays.copyOfRange(arr, 0, half));
-        int[] right = MergeSort(Arrays.copyOfRange(arr, half, arr.length));
-
-        return merge(left, right);
-    }
-
-    //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson04/dataB.txt");
@@ -77,4 +57,6 @@ public class B_MergeSort {
             System.out.print(index+" ");
         }
     }
+
+
 }

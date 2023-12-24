@@ -1,4 +1,4 @@
-package by.it.group251051.Kallaur.lesson02;
+package by.it.a_khmelev.lesson02;
 
 import org.junit.Test;
 
