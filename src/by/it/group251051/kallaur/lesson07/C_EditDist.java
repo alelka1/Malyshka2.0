@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson07;
+package by.it.group251051.Kallaur.lesson07;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -52,12 +52,46 @@ public class C_EditDist {
     String getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
+        int s1 = one.length();
+        int s2 = two.length();
 
-        String result = "";
+        int[][] matrix = new int[s1 + 1][s2 + 1];
+
+        for(int j = 0; j < s1 + 1; j++)
+            matrix[j][0] = j;
+
+        for (int i = 0; i < s2 +1; i++)
+            matrix[0][i] = i;
+
+        for(int i = 1; i <= s1; i++) {
+            for(int j = 1; j <= s2; j++) {
+                int temp = check(one, two, i, j);
+                matrix[i][j] = Math.min(matrix[i-1][j-1] + temp, Math.min(matrix[i-1][j] + temp, matrix[i][j-1] + temp));
+            }
+        }
+
+        StringBuilder result = new StringBuilder();
+
+        for (int i = s1, j = s2; i != 0 || j != 0; ){
+            if (i > 0 && j > 0 && matrix[i - 1][j - 1] + check(one, two, i, j) == matrix[i][j]) {
+                if(one.charAt(i - 1) == two.charAt(j - 1))
+                    result.insert(0, "#,");
+                else
+                    result.insert(0, "~" + two.charAt(j - 1) + ",");
+                i--;
+                j--;
+            }
+            else if (i > 0 && matrix[i][j] == matrix[i - 1][j] + 1)
+                result.insert(0, "-" + one.charAt(--i) + ",");
+            else if (j > 0 && matrix[i][j] == matrix[i][j - 1] + 1)
+                result.insert(0, "+" + two.charAt(--j) + ",");
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return result.toString();
     }
-
+    int check(String one, String two, int i, int j) {
+        return one.charAt(i - 1) == two.charAt(j - 1) ? 0 : 1;
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
@@ -68,5 +102,4 @@ public class C_EditDist {
         System.out.println(instance.getDistanceEdinting(scanner.nextLine(),scanner.nextLine()));
         System.out.println(instance.getDistanceEdinting(scanner.nextLine(),scanner.nextLine()));
     }
-
 }

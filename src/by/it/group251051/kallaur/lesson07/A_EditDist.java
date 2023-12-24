@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson07;
+package by.it.group251051.Kallaur.lesson07;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -39,17 +39,25 @@ import java.util.Scanner;
 
 public class A_EditDist {
 
-
     int getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
-
-        int result = 0;
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return Distance(one.length(), two.length(), one, two);
     }
 
+    int Distance(int s1, int s2, String one, String two) {
+        if (s1 == 0 || s2 == 0)
+            return Math.max(s1, s2);
 
+        int a = Distance(s1 - 1, s2, one, two);
+
+        int b = Distance(s1, s2 - 1, one, two);
+
+        int c = Distance(--s1, --s2, one, two) + (one.charAt(s1) == two.charAt(s2) ? 0 : 1);
+
+        return Integer.min(++a, Integer.min(++b, c));
+    }
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson07/dataABC.txt");

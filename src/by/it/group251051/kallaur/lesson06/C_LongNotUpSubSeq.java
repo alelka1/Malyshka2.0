@@ -1,9 +1,11 @@
-package by.it.a_khmelev.lesson06;
+package by.it.group251051.Kallaur.lesson06;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
+import java.util.Arrays;
+
 
 /*
 Задача на программирование: наибольшая невозростающая подпоследовательность
@@ -51,7 +53,36 @@ public class C_LongNotUpSubSeq {
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
         int result = 0;
+        int max = 0;
 
+        int[] arr = new int[n];
+        int[] ind = new int[n];
+        Arrays.fill(ind, -1);
+        Arrays.fill(arr,1);
+
+        for (int i = 1; i < n; i++)
+            for (int j = 0; j < i; j++)
+                if (m[j] >= m[i] && arr[j] >= arr[i] )
+                    arr[i] = arr[ind[i] = j] + 1;
+
+        for (int i = 0; i < n; i++)
+            if (result < arr[i])
+                result = arr[max = i];
+
+        int[] arr2 = new int[result];
+
+        for(int i = result - 1; max >= 0; i--) {
+            arr2[i] = max + 1;
+            max = ind[max];
+        }
+
+        for (int j : m) {
+            System.out.print(j + " ");
+        } System.out.print("\n\n");
+
+        for (int j : arr2) {
+            System.out.print(j + " ");
+        } System.out.println();
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;

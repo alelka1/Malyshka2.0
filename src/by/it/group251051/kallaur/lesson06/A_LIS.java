@@ -1,9 +1,10 @@
-package by.it.a_khmelev.lesson06;
+package by.it.group251051.Kallaur.lesson06;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
+import java.util.Arrays;
 
 /*
 Задача на программирование: наибольшая возрастающая подпоследовательность
@@ -45,6 +46,18 @@ public class A_LIS {
             m[i] = scanner.nextInt();
         }
         int result = 0;
+
+        int[] arr = new int[n];
+        Arrays.fill(arr,1);
+        for (int i = 1; i < n; i++)
+            for (int j = 0; j < i; j++)
+                if (m[j] < m[i] && arr[j] >= arr[i])
+                    arr[i] = arr[j] + 1;
+
+        for (int i = 0; i < n; i++)
+            if (result < arr[i])
+                result = arr[i];
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

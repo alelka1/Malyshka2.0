@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson03;
+package by.it.group251051.Kallaur.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -121,20 +121,40 @@ public class A_Huffman {
 
         Map<Character, Integer> count = new HashMap<>();
         //1. переберем все символы по очереди и рассчитаем их частоту в Map count
-            //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
-
+        //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
+        for (int i = 0; i < s.length(); i++) {
+            if (count.containsKey(s.charAt(i)))
+                count.put(s.charAt(i), count.get(s.charAt(i)) + 1);
+            else
+                count.put(s.charAt(i),1);
+        }
         //2. перенесем все символы в приоритетную очередь в виде листьев
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
 
+        Iterator<Map.Entry<Character,Integer>> mapIterator = count.entrySet().iterator();
+        while (mapIterator.hasNext()) {
+            Map.Entry<Character, Integer> temp = mapIterator.next();
+            priorityQueue.add(new LeafNode(temp.getValue(),temp.getKey()));
+        }
         //3. вынимая по два узла из очереди (для сборки родителя)
         //и возвращая этого родителя обратно в очередь
         //построим дерево кодирования Хаффмана.
         //У родителя частоты детей складываются.
-
+        while(priorityQueue.size() > 1) {
+            Node left = priorityQueue.poll();
+            Node right = priorityQueue.poll();
+            InternalNode parent = new InternalNode(left, right);
+            priorityQueue.add(parent);
+        }
         //4. последний из родителей будет корнем этого дерева
         //это будет последний и единственный элемент оставшийся в очереди priorityQueue.
+        Node Root = priorityQueue.poll();
+        Root.fillCodes("");
+
         StringBuilder sb = new StringBuilder();
-        //.....
+
+        for(char num: s.toCharArray())
+            sb.append(codes.get(num));
 
         return sb.toString();
         //01001100100111
