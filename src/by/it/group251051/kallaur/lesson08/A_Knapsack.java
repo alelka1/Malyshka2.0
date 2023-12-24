@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson08;
+package by.it.group251051.Kallaur.lesson08;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -41,17 +41,20 @@ public class A_Knapsack {
         Scanner scanner = new Scanner(stream);
         int w=scanner.nextInt();
         int n=scanner.nextInt();
-        int gold[]=new int[n];
+        int[] gold =new int[n];
         for (int i = 0; i < n; i++) {
             gold[i]=scanner.nextInt();
         }
 
+        int[] max = new int[w + 1];
+        for (int i = 1; i <= w; i++)
+            for (int j = 0; j < n; j++)
+                if (gold[j] <= i)
+                    max[i] = Math.max(max[i], max[i - gold[j]] +  gold[j]);
 
-        int result = 0;
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return max[w];
     }
-
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";

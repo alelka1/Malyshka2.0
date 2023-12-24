@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson07;
+package by.it.group251051.Kallaur.lesson07;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -43,11 +43,26 @@ public class B_EditDist {
     int getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
+        int s1 = one.length();
+        int s2 = two.length();
 
+        int[][] matrix = new int[s1 + 1][s2 + 1];
 
-        int result = 0;
+        for(int i = 0; i <= s1; i++)
+            matrix[i][0] = i;
+
+        for(int j = 0; j <= s2; j++)
+            matrix[0][j] = j;
+
+        for(int i = 1; i <= s1; i++) {
+            for(int j = 1; j <= s2; j++) {
+                int temp = one.charAt(i - 1 ) == two.charAt(j - 1) ? 0 : 1;
+                matrix[i][j] = Math.min((matrix[i-1][j-1] + temp), Math.min((matrix[i][j-1] + temp), (matrix[i-1][j] + temp)));
+            }
+        }
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return matrix[s1][s2];
     }
 
 

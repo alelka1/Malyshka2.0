@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson03;
+package by.it.group251051.Kallaur.lesson03;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -34,31 +34,51 @@ import java.util.Scanner;
 //      200
 //      500
 
-
 public class C_HeapMax {
-
+    //тут запишите ваше решение.
+    //Будет мало? Ну тогда можете его собрать как Generic и/или использовать в варианте B
     private class MaxHeap {
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        //тут запишите ваше решение.
-        //Будет мало? Ну тогда можете его собрать как Generic и/или использовать в варианте B
         private List<Long> heap = new ArrayList<>();
 
-        int siftDown(int i) { //просеивание вверх
-
-            return i;
+        void swap(int num1,int num2)
+        {
+            Long temp = heap.get(num1);
+            heap.set(num1, heap.get(num2));
+            heap.set(num2,temp);
+        }
+        int max(int i)
+        {
+            int size = heap.size();
+            int left = i*2+1;
+            int right = left + 1;
+            if (size > left && size > right)
+                return heap.get(left) > heap.get(right) ?  left : right;
+            else
+                return size > left ? left : (size > right ? right : i);
+        }
+        void siftDown(int i) { //просеивание вверх
+            while (heap.get(i) < heap.get(max(i)))
+                swap(i,max(i));
         }
 
-        int siftUp(int i) { //просеивание вниз
-
-            return i;
+        void siftUp(int i) { //просеивание вниз
+            int j = (i - 1)/2;
+            if (heap.get(j) <= heap.get(i))
+                swap(j,i);
         }
 
         void insert(Long value) { //вставка
+            heap.add(value);
+            siftUp(heap.size() - 1);
         }
 
         Long extractMax() { //извлечение и удаление максимума
-            Long result = null;
-
+            Long result = heap.get(0);
+            int size = heap.size() - 1;
+            heap.set(0, heap.get(size));
+            heap.remove(size);
+            siftDown(0);
             return result;
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
@@ -84,7 +104,7 @@ public class C_HeapMax {
                 if (p[0].equalsIgnoreCase("insert"))
                     heap.insert(Long.parseLong(p[1]));
                 i++;
-            //System.out.println(heap); //debug
+                //System.out.println(heap); //debug
             }
         }
         return maxValue;
