@@ -34,7 +34,6 @@ public class FiboA {
         return calc(n - 1) + calc (n -2);
     }
 
-
     BigInteger slowA(Integer n) {
         //рекурсия
         //здесь нужно реализовать вариант без ограничения на размер числа,
@@ -46,8 +45,5 @@ public class FiboA {
 
         return slowA(n-1).add(slowA(n -2));
     }
-
-
-
 }
 
