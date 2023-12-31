@@ -6,6 +6,9 @@ package by.it.group251051.prach.lesson01;
  * время расчета должно быть не более 2 секунд
  */
 
+import java.math.BigInteger;
+import java.util.Stack;
+
 public class FiboC {
 
     private long startTime = System.currentTimeMillis();
@@ -22,12 +25,42 @@ public class FiboC {
     }
 
     long fasterC(long n, int m) {
-        //Решение сложно найти интуитивно
-        //возможно потребуется дополнительный поиск информации
-        //см. период Пизано
-        return 0L;
+        if (n <= 1) {
+            return n;
+        }
+
+        long a = 0;
+        long b = 1;
+        long period = 0;
+        long result = a + b;
+
+        for (long i = 2; i <= n; i++) {
+            result = (a + b) % m;
+            a = b;
+            b = result;
+
+            // Проверяем, если начинается новый период Пизано
+            if (a == 0 && b == 1) {
+                period = i - 1;
+                break;
+            }
+        }
+
+        if (period > 0) {
+            // Находим остаток от деления n на период Пизано
+            n %= period;
+            a = 0;
+            b = 1;
+            result = n;
+
+            for (long i = 2; i <= n; i++) {
+                result = (a + b) % m;
+                a = b;
+                b = result;
+            }
+        }
+
+        return result;
     }
-
-
 }
 
