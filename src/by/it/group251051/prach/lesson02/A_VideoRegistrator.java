@@ -2,6 +2,8 @@ package by.it.group251051.prach.lesson02;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
+
 /*
 даны события events
 реализуйте метод calcStartTimes, так, чтобы число включений регистратора на
@@ -12,19 +14,20 @@ import java.util.List;
 
 public class A_VideoRegistrator {
 
-    public static void main(String[] args)  {
-        A_VideoRegistrator instance=new A_VideoRegistrator();
-        double[] events=new double[]{1, 1.1, 1.6, 2.2, 2.4, 2.7, 3.9, 8.1, 9.1, 5.5, 3.7};
-        List<Double> starts=instance.calcStartTimes(events,1); //рассчитаем моменты старта, с длинной сеанса 1
+    public static void main(String[] args) {
+        A_VideoRegistrator instance = new A_VideoRegistrator();
+        double[] events = new double[]{1, 1.1, 1.6, 2.2, 2.4, 2.7, 3.9, 8.1, 9.1, 5.5, 3.7};
+        List<Double> starts = instance.calcStartTimes(events, 1); //рассчитаем моменты старта, с длинной сеанса 1
         System.out.println(starts);                            //покажем моменты старта
     }
+
     //модификаторы доступа опущены для возможности тестирования
-    List<Double> calcStartTimes(double[] events, double workDuration)  {
+    List<Double> calcStartTimes(double[] events, double workDuration) {
         //events - события которые нужно зарегистрировать
         //timeWorkDuration время работы видеокамеры после старта
         List<Double> result;
         result = new ArrayList<>();
-        int i=0;                              //i - это индекс события events[i]
+        int i = 0;                              //i - это индекс события events[i]
         //комментарии от проверочного решения сохранены для подсказки, но вы можете их удалить.
         //подготовка к жадному поглощению массива событий
         //hint: сортировка Arrays.sort обеспечит скорость алгоритма
@@ -37,8 +40,29 @@ public class A_VideoRegistrator {
         //и теперь пропустим все покрываемые события
         //за время до конца работы, увеличивая индекс
 
+        Arrays.sort(events);
 
+        /*
+         * Запускается цикл, который проходит по событиям в отсортированном массиве.
+         * Для каждого события проверяется, если его временная метка больше, чем текущее время старта видеокамеры (start).
+         */
+        double start = 0.0;
+        /*
+         * Цикл продолжается до предпоследнего элемента массива events,
+         * так как обработка последнего элемента происходит за пределами цикла.
+         */
+        for (i = 0; i < events.length - 1; i++) {
+            /*
+             * Если время события больше, чем текущее время старта видеокамеры,
+             * это событие добавляется в список result, и время старта видеокамеры обновляется до времени окончания работы видеокамеры после старта (events[i] + workDuration).
+             * Это позволяет пропустить все события, которые могут пересекаться с работой видеокамеры.
+             */
+            if (events[i] > start) {
+                result.add(events[i]);
+                start = events[i] + workDuration;
+            }
+        }
 
-        return result;                        //вернем итог
+        return result;
     }
 }

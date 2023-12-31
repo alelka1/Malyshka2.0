@@ -14,6 +14,9 @@ package by.it.group251051.prach.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
@@ -34,12 +37,16 @@ public class C_GreedyKnapsack {
                     '}';
         }
 
+        // Сортировка предметов по удельной стоимости
+        public double getValuePerWeight() {
+            // Удельная стоимость предмета вычисляется как отношение его стоимости к его весу.
+            return (double) cost / (double) weight;
+        }
+
+        // Реализация сравнения для сортировки в порядке убывания удельной стоимости
         @Override
         public int compareTo(Item o) {
-            //тут может быть ваш компаратор
-
-
-            return 0;
+            return Double.compare(o.getValuePerWeight(), this.getValuePerWeight());
         }
     }
 
@@ -47,14 +54,17 @@ public class C_GreedyKnapsack {
         Scanner input = new Scanner(source);
         int n = input.nextInt();      //сколько предметов в файле
         int W = input.nextInt();      //какой вес у рюкзака
-        Item[] items = new Item[n];   //получим список предметов
+
+        List<Item> items = new ArrayList<>();   //получим список предметов
         for (int i = 0; i < n; i++) { //создавая каждый конструктором
-            items[i] = new Item(input.nextInt(), input.nextInt());
+            items.add(new Item(input.nextInt(), input.nextInt()));
         }
+
         //покажем предметы
         for (Item item:items) {
             System.out.println(item);
         }
+
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
 
         //тут необходимо реализовать решение задачи
@@ -67,10 +77,23 @@ public class C_GreedyKnapsack {
         //ваше решение.
 
 
+        int remainingCapacity = W;
 
+        // Алгоритм начинает проходить по отсортированному списку предметов.
+        Collections.sort(items);
+        for (Item item : items) {
+            if (remainingCapacity <= 0) {
+                break;
+            }
 
+            // Подсчитывается общая стоимость предметов, добавленных в рюкзак.
+            int weightToTake = Math.min(item.weight, remainingCapacity);
+            result += (double) weightToTake * item.getValuePerWeight();
+            remainingCapacity -= weightToTake;
+        }
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
+
         return result;
     }
 
