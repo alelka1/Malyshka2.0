@@ -48,15 +48,6 @@ public class A_Knapsack {
             gold[i]=scanner.nextInt();
         }
 
-//        Arrays.sort(gold);
-//        int result = 0;
-//        for(int i = gold.length-1; i >= 0; i--){
-//            while(w >= gold[i]){
-//                w -= gold[i];
-//                result += gold[i];
-//            }
-//        }
-
         int result = 0;
         int[] maxWeights = new int[w + 1];
         for (int i = 1; i <= w; i++) {

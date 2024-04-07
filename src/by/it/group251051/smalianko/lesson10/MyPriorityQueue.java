@@ -8,49 +8,6 @@ public class MyPriorityQueue<E> implements Queue<E> {
     private E[] heap;
     private int size;
 
-    public static void main(String[] args) {
-        PriorityQueue<Integer> x = new PriorityQueue<>();
-        x.add(1);
-        x.add(2);
-        x.add(5);
-        x.add(6);
-        x.add(4);
-//        System.out.println(x.toString());
-
-        x.poll();
-        Object aboba = new Object();
-        x.remove(aboba);
-
-
-//        System.out.println(x.toString());
-
-
-
-        MyPriorityQueue<Integer> test = new MyPriorityQueue<>();
-        test.add(8);
-        test.add(1);
-        test.add(8);
-        test.add(2);
-        test.add(1);
-        test.add(8);
-        test.add(19);
-        test.add(5);
-        test.add(6);
-        test.add(19);
-        test.add(4);
-
-        System.out.println(test.toString());
-
-        System.out.println(test.size());
-        ArrayList<Integer> b = new ArrayList<>();
-        b.add(2);
-        b.add(5);
-        b.add(4);
-        test.retainAll(b);
-
-        System.out.println(test.toString());
-    }
-
     @Override
     public String toString() {
         Iterator<E> iterator = iterator();

@@ -345,19 +345,4 @@ public class MyLinkedList<E> implements Deque<E> , List<E> {
         return null;
     }
 
-    public static void main(String[] args) {
-        LinkedList<Integer> x = new LinkedList<>();
-        x.add(5);
-
-        MyLinkedList<Integer> test = new MyLinkedList<>();
-
-        test.add(1);
-        test.add(2);
-        test.add(3);
-
-        test.remove((Object) 2);
-
-        System.out.println(test.toString());
-    }
-
 }
