@@ -1,3 +1,4 @@
+
 package by.it.group251051.kallaur.lesson09;
 
 import java.util.Collection;
@@ -7,79 +8,119 @@ import java.util.ListIterator;
 
 public class ListB<E> implements List<E> {
 
-
-    //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
-
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    //////               Обязательные к реализации методы             ///////
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
+    private E[] mas = (E[]) new Object[0];
+    private int size;
     @Override
     public String toString() {
-        return "";
+        StringBuilder str = new StringBuilder("[");
+        String temp = "";
+        for(int i = 0; i < size; i++){
+            str.append(temp).append(mas[i]);
+            temp = ", ";
+        }
+        str.append("]");
+
+        return str.toString();
     }
 
     @Override
     public boolean add(E e) {
-        return false;
+        if(size==mas.length){
+            E[] newmas = (E[]) new Object[(mas.length*3)/2+1];
+            System.arraycopy(mas,0,newmas,0,size);
+            mas=newmas;
+        }
+        mas[size++]=e;
+        return true;
     }
 
     @Override
     public E remove(int index) {
-        return null;
+        E deleteMem = mas[index];
+        System.arraycopy(mas,index+1,mas,index,size-1-index);
+        size--;
+        mas[size]=null;
+        return deleteMem;
     }
 
     @Override
     public int size() {
-        return 0;
+
+        return size;
     }
 
     @Override
     public void add(int index, E element) {
-
+        if (size == mas.length){
+            E[] newmas = (E[]) new Object[size*3/2 + 1];
+            System.arraycopy(mas, 0, newmas, 0, size);
+            mas = newmas;
+        }
+        for (int i = size; i > index; i--){
+            mas[i] = mas[i - 1];
+        }
+        mas[index] = element;
+        size++;
     }
 
     @Override
     public boolean remove(Object o) {
-        return false;
+        int delMem = indexOf(o);
+        if (delMem > -1){
+            remove(delMem);
+        }
+        return (delMem > -1);
     }
 
     @Override
     public E set(int index, E element) {
-        return null;
+        E prev = mas[index];
+        mas[index]=element;
+        return prev;
     }
 
 
     @Override
     public boolean isEmpty() {
-        return false;
+
+        return size==0;
     }
 
 
     @Override
     public void clear() {
-
+        while(size != 0){
+            remove(0);
+        }
     }
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+        for (int k = 0; k < size; k++){
+            if (mas[k].equals(o)) return k;
+        }
+
+        return -1;
     }
 
     @Override
     public E get(int index) {
-        return null;
+
+        return mas[index];
     }
 
     @Override
     public boolean contains(Object o) {
-        return false;
+        return (indexOf(o) > -1);
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        for (int k = size - 1; k >= 0; k--){
+            if (mas[k].equals(o)) return k;
+        }
+
+        return -1;
     }
 
 
