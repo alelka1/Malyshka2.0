@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson09;
+package by.it.group251051.marchuk.lesson09;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -8,7 +8,9 @@ import java.util.ListIterator;
 public class ListA<E> implements List<E> {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
-
+    E[] arr = (E[]) new Object[]{};
+    int capacity = 0;  // real size
+    int size = 0; // size for user
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     //////               Обязательные к реализации методы             ///////
@@ -16,22 +18,52 @@ public class ListA<E> implements List<E> {
     /////////////////////////////////////////////////////////////////////////
     @Override
     public String toString() {
-        return "";
+        StringBuilder result = new StringBuilder("[");
+        if (size == 0){
+            return "[]";
+        }
+        for (int i = 0; i < size; i++) {
+            result.append(arr[i].toString());
+            result.append(", ");
+        }
+        if (arr.length > 0) {
+            result.delete(result.length() - 2, result.length());
+        }
+        result.append("]");
+        return result.toString();
     }
 
     @Override
     public boolean add(E e) {
-        return false;
+        if (capacity == size()) {
+            capacity = (capacity * 3 / 2) + 1;
+            E[] oldArr = arr;
+            arr = (E[]) new Object[capacity];
+            for (int i = 0; i < size; i++) {
+                arr[i] = oldArr[i];
+            }
+        }
+        arr[size] = e;
+        size++;
+        return true;
     }
 
     @Override
     public E remove(int index) {
+        if (index <= size && index >= 0){
+            E result = arr[index];
+            for (int i = index; i < size; i++) {
+                arr[i] = arr[i + 1];
+            }
+            size--;
+            return result;
+        }
         return null;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /////////////////////////////////////////////////////////////////////////
@@ -41,9 +73,7 @@ public class ListA<E> implements List<E> {
     /////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void add(int index, E element) {
-
-    }
+    public void add(int index, E element) {}
 
     @Override
     public boolean remove(Object o) {
