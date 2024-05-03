@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson09;
+package by.it.group251051.marchuk.lesson09;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -6,104 +6,235 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class ListC<E> implements List<E> {
+    private E[] list = (E[]) new Object[0];
+    private int size = 0;
 
-    //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
-
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    //////               Обязательные к реализации методы             ///////
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
     @Override
     public String toString() {
-        return "";
+        if (size == 0) {
+            return "[]";
+        }
+
+        StringBuilder str = new StringBuilder("[");
+
+        str.append(list[0]);
+        for (int i = 1; i < size; i++) {
+            str.append(", ").append(list[i]);
+        }
+
+        return str.append("]").toString();
     }
 
     @Override
     public boolean add(E e) {
-        return false;
+        if (size == list.length) {
+            resize();
+        }
+
+        add(size, e);
+        return true;
     }
 
     @Override
     public E remove(int index) {
-        return null;
+        if (index < 0 || index >= size)
+            throw new IndexOutOfBoundsException("index: " + index + " is out of bound size: " + size);
+
+        E deleted = list[index];
+        for (int i = index; i < size; i++) {
+            list[i] = list[i + 1];
+        }
+
+        list[size - 1] = null;
+        size--;
+
+        return deleted;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
     public void add(int index, E element) {
+        if (index < 0 || index > size)
+            throw new IndexOutOfBoundsException("index: " + index + "is out of bound, size: " + size);
 
+        if (size == list.length) {
+            resize();
+        }
+
+        for (int i = size; i > index; i--) {
+            list[i] = list[i - 1];
+        }
+
+        list[index] = element;
+        size++;
     }
 
     @Override
     public boolean remove(Object o) {
-        return false;
+        int idx = indexOf(o);
+        if (idx < 0) {
+            return false;
+        }
+
+        remove(idx);
+        return true;
     }
 
     @Override
     public E set(int index, E element) {
-        return null;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("index: " + index + "is out of bound");
+        }
+
+        E prevElement = list[index];
+        list[index] = element;
+
+        return prevElement;
     }
 
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
 
     @Override
     public void clear() {
-
+        for (int i = 0; i < size; i++) {
+            list[i] = null;
+        }
+        size = 0;
     }
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+        if (o == null) {
+            throw new IllegalArgumentException("Type \"null\" is invalid");
+        }
+
+        for (int i = 0; i < size; i++) {
+            if (o.equals(list[i])) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     @Override
     public E get(int index) {
-        return null;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("index: " + index + "is out of bound");
+        }
+        return list[index];
     }
 
     @Override
     public boolean contains(Object o) {
-        return false;
+        return indexOf(o) >= 0;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        if (o == null) {
+            throw new IllegalArgumentException("Type \"null\" is invalid");
+        }
+
+        for (int i = size - 1; i >= 0; i--) {
+            if (o.equals(list[i])) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        for (Object obj : c) {
+            if (!contains(obj)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        return false;
+        return addAll(size, c);
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        return false;
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("index: " + index + "is out of bound");
+        }
+        int cSize = c.size();
+
+        if (c.isEmpty()) {
+            return false;
+        }
+
+        if (size + cSize > list.length) {
+            resize(size + cSize);
+        }
+
+        for (int i = size - 1; i >= index; i--) {
+            list[i + cSize] = list[i];
+        }
+
+        int i = index;
+        for (E obj : c) {
+            list[i++] = obj;
+        }
+
+        size = size + cSize;
+        return true;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        return false;
+        boolean res = false;
+
+        for (int i = 0; i < size; i++)
+            if (c.contains(list[i])) {
+                remove(i);
+                res = true;
+                i--;
+            }
+
+        return res;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return false;
+        boolean res = false;
+        int i = 0;
+        while (i < size) {
+            if (!c.contains(list[i])) {
+                remove(list[i]);
+                res = true;
+            } else {
+                i++;
+            }
+        }
+
+        return res;
+    }
+
+    private void resize() {
+        resize(list.length);
+    }
+
+    private void resize(int newSize) {
+        E[] newList = (E[]) new Object[2 * newSize + 1];
+        System.arraycopy(list, 0, newList, 0, size);
+        list = newList;
     }
 
     /////////////////////////////////////////////////////////////////////////
