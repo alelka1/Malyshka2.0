@@ -37,7 +37,7 @@ public class Lesson3Test {
         String result = instance.decode(f);
         boolean ok=result.equals("abacabad");
         assertTrue("B failed", ok);
-    }/
+    }
     @Test
     public void C() throws Exception {
         String root = System.getProperty("user.dir") + "/src/";
