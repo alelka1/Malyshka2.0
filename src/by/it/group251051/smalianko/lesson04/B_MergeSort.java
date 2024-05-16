@@ -85,7 +85,6 @@ public class B_MergeSort {
                 i++;
             }
         }
-
         while(ArrayOne.length != i) {
             result[index] = ArrayOne[i];
             index++;

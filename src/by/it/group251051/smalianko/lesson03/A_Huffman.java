@@ -108,8 +108,6 @@ public class A_Huffman {
 
     //индекс данных из листьев
     static private Map<Character, String> codes = new TreeMap<>();
-
-
     //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
     String encode(File file) throws FileNotFoundException {
         //прочитаем строку для кодирования из тестового файла

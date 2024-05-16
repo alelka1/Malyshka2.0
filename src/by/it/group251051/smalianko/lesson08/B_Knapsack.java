@@ -42,16 +42,6 @@ public class B_Knapsack {
         int result = 0;
 
 
-//        Arrays.sort(gold);
-//        for(int i = gold.length-1; i >= 0; i--){
-//            if(w >= gold[i]){
-//                w -= gold[i];
-//                result += gold[i];
-//            }
-//        }
-
-
-
         int[][] maxWeight = new int[w + 1][n + 1];
 
         for (int i = 0; i <= w; i++){
