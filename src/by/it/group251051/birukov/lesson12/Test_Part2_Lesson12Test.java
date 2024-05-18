@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson12;
+package by.it.group251051.birukov01.lesson12;
 
 
 import by.it.HomeWork;
